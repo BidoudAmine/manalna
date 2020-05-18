@@ -18,27 +18,24 @@ import java.util.List;
 
 @RestController
 public class MedecinController {
-@Autowired
-private MedecinRepo medecinRepo ;
-@Autowired
-private ConsulRepo consulRepo ;
+    @Autowired
+    private MedecinRepo medecinRepo;
+    @Autowired
+    private ConsulRepo consulRepo;
+
     @GetMapping("/med/showallconsu")
-    public List<Consultation> showallconsu(){
+    public List<Consultation> showallconsu() {
         return consulRepo.findAll();
     }
+
     @PostMapping("/med/{medid}/addconsu")
     public Consultation createconsu(@PathVariable(value = "medid") int medid, @RequestBody Consultation consultation) {
         return medecinRepo.findById(medid).map(medecin -> {
             consultation.setMedecin(medecin);
-            return consulRepo.save(consultation);        }).orElseThrow(() -> new ResourceNotFoundException("medecin id " + medid + " not found"));
+            return consulRepo.save(consultation);
+        }).orElseThrow(() -> new ResourceNotFoundException("medecin id " + medid + " not found"));
 
     }
-    
-
-
-
-
-
 
 
 }
