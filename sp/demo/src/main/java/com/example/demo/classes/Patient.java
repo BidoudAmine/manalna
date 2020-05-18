@@ -1,15 +1,14 @@
 package com.example.demo.classes;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
         @Table(name = " Patients")
 
 public class Patient extends Utilisateur {
     @Id
+    @GeneratedValue
     private int idpatient;
 
     public int getIdpatient() {

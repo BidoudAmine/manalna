@@ -1,9 +1,9 @@
 package com.example.demo.classes;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,23 +17,31 @@ import java.util.Date;
 @Table(name = " Consultations")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(
-        value = {"date"},
+        value = {"date_creation"},
         allowGetters = true
 )
 
-public class Consultation  implements Serializable {
+
+public class Consultation  {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int idConsultation;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_creation", nullable = false, updatable = false)
     @CreatedDate
-    private java.util.Date Date;
+    private java.util.Date date_creation;
 
     private String Observation;
     private String EtatPaiement;
 
+    public Date getDate_creation() {
+        return date_creation;
+    }
+
+    public void setDate_creation(Date date_creation) {
+        this.date_creation = date_creation;
+    }
 
     public int getIdConsultation() {
         return idConsultation;
@@ -43,13 +51,7 @@ public class Consultation  implements Serializable {
         this.idConsultation = idConsultation;
     }
 
-    public Date getDate() {
-        return Date;
-    }
 
-    public void setDate(Date date) {
-        Date = date;
-    }
 
     public String getObservation() {
         return Observation;
@@ -66,9 +68,32 @@ public class Consultation  implements Serializable {
     public void setEtatPaiement(String etatPaiement) {
         EtatPaiement = etatPaiement;
     }
+
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "medecin_id", nullable = false)
-
-
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Medecin medecin ;
+
+    public Medecin getMedecin() {
+        return medecin;
+    }
+
+    public void setMedecin(Medecin medecin) {
+        this.medecin = medecin;
+    }
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "patient_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Patient patient ;
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Medecin extends Utilisateur {
     @Id
+    @GeneratedValue
     private int id;
 
 
@@ -20,17 +21,10 @@ public class Medecin extends Utilisateur {
         this.id = idmedecin;
     }
 
-    public List<Consultation> getConsultationList() {
-        return consultationList;
-    }
 
-    public void setConsultationList(List<Consultation> consultationList) {
-        this.consultationList = consultationList;
-    }
 
     private String spécialité;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "medecin")
-    private List<Consultation> consultationList ;
+
 
 
 

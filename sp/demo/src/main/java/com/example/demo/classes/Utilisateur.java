@@ -5,10 +5,9 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 
-
+@MappedSuperclass
 public class Utilisateur {
-    @Id
-    private int idutilisateur;
+
 
     private String nom;
     private String prenom;
@@ -17,13 +16,6 @@ public class Utilisateur {
 
 
 
-    public int getIdutilisateur() {
-        return idutilisateur;
-    }
-
-    public void setIdutilisateur(int idutilisateur) {
-        this.idutilisateur = idutilisateur;
-    }
 
     public String getNom() {
         return nom;
