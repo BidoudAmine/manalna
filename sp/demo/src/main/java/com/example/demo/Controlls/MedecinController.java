@@ -6,6 +6,7 @@ import com.example.demo.classes.Medecin;
 import com.example.demo.classes.ResourceNotFoundException;
 import com.example.demo.repos.ConsulRepo;
 import com.example.demo.repos.MedecinRepo;
+import com.example.demo.repos.PatientRepo;
 import org.hibernate.annotations.GeneratorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,16 +23,19 @@ public class MedecinController {
     private MedecinRepo medecinRepo;
     @Autowired
     private ConsulRepo consulRepo;
+    @Autowired
+    private PatientRepo patientRepo;
 
     @GetMapping("/med/showallconsu")
     public List<Consultation> showallconsu() {
         return consulRepo.findAll();
     }
 
-    @PostMapping("/med/{medid}/addconsu")
-    public Consultation createconsu(@PathVariable(value = "medid") int medid, @RequestBody Consultation consultation) {
+    @PostMapping("/med/{medid}/addconsu/{patientid}")
+    public Consultation createconsu(@PathVariable(value = "medid") int medid, @PathVariable(value="patientid") int patientid,@RequestBody Consultation consultation) {
         return medecinRepo.findById(medid).map(medecin -> {
             consultation.setMedecin(medecin);
+            consultation.setPatient(patientRepo.findById(patientid).get());
             return consulRepo.save(consultation);
         }).orElseThrow(() -> new ResourceNotFoundException("medecin id " + medid + " not found"));
 
