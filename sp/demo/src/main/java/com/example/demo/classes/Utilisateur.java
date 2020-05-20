@@ -5,47 +5,27 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @MappedSuperclass
 public class Utilisateur {
 
-
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id ;
     private String nom;
     private String prenom;
-    private String login;
-    private String mdp;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id ;
+    @Column(unique = true)  //username unique ..
+    private String username ;
+    private String password ;
+    private boolean actived ;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<AppRole> roles = new ArrayList<>() ;
+    
 
-
-
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getMdp() {
-        return mdp;
-    }
-
-    public void setMdp(String mdp) {
-        this.mdp = mdp;
-    }
+  
 }
